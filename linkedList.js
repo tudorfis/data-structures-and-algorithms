@@ -90,6 +90,9 @@ LinkedList = /** @class */ (function () {
     LinkedList.prototype.print = function () {
         return JSON.stringify(this, null, 4);
     };
+    LinkedList.prototype.printString = function () {
+        return console.log(this);
+    };
     LinkedList.prototype.toArray = function () {
         const array = new Array(this._size);
         let current = this._first;
@@ -103,20 +106,51 @@ LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.reverse = function() {
         if (this.count <= 1) return;
-        const current = this.first;
-        while(current !== null) {
-            // const second = current.next;
-            // second.next = current;
-            // current = second;
+        const ref = this;
+        swtchFL = function() {
+            const proxy = ref._last;
+            ref._last = ref._first;
+            ref._first = proxy;
         }
+        doR = function(f,s) {
+            t = s.next;
+            s.next = f;
+            if (t.next) {
+                doR(s,t);
+            } else {
+                t.next = s;
+                swtchFL();
+            }
+        }
+        const f = this._first;
+        const s = f.next;
+        this._first.next = null
+        doR(f, s);
     }
     return LinkedList;
 }());
 
+/** START TIME */
+var start = new Date().getTime();
+
 var list = new LinkedList();
-list.addLast(10);
-list.addLast(20);
-list.addLast(30);
-list.addLast(40);
-list.reverse();
-console.log(list.toArray());
+for (let i = 1; i < 1000; i++) {
+    list.addLast(i);
+}
+
+for (let j = 1; j < 100000; j++) {
+    list.reverse();
+}
+
+// for (let j = 1; j < 2; j++) {
+
+// }
+
+
+// console.log(list.print());
+
+
+/** END TIME */
+var end = new Date().getTime();
+var time = end - start;
+console.log(`=== Execution time: ${time} ===`);
