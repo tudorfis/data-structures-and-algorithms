@@ -12,7 +12,7 @@ LinkedList = /** @class */ (function () {
         this._last = null;
         this._size = 0;
     }
-    LinkedList.prototype.isEmpty = function () {
+    LinkedList.prototype._isEmpty = function () {
         return (this._first === null);
     };
     LinkedList.prototype.getPrevious = function (node) {
@@ -24,7 +24,7 @@ LinkedList = /** @class */ (function () {
         return null;
     };
     LinkedList.prototype.handleEmptyOrOne = function () {
-        if (this.isEmpty())
+        if (this._isEmpty())
             return false;
         if (this._first === this._last) {
             this._first = this._last = null;
@@ -35,7 +35,7 @@ LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.addLast = function (item) {
         const node = new Node(item);
-        if (this.isEmpty()) {
+        if (this._isEmpty()) {
             this._first = this._last = node;
         }
         else {
@@ -46,7 +46,7 @@ LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.addFirst = function (item) {
         const node = new Node(item);
-        if (this.isEmpty()) {
+        if (this._isEmpty()) {
             this._first = this._last = node;
         }
         else {
@@ -88,7 +88,7 @@ LinkedList = /** @class */ (function () {
         return this._size;
     };
     LinkedList.prototype.print = function () {
-        return JSON.stringify(this, null, 4);
+        console.log(`${JSON.stringify(this, null, 4)}`);
     };
     LinkedList.prototype.printString = function () {
         return console.log(this);
@@ -104,6 +104,7 @@ LinkedList = /** @class */ (function () {
         }
         return array;
     };
+    /** my solution
     LinkedList.prototype.reverse = function() {
         if (this.count <= 1) return;
         const ref = this;
@@ -127,30 +128,76 @@ LinkedList = /** @class */ (function () {
         this._first.next = null
         doR(f, s);
     }
+    */
+    LinkedList.prototype.reverse = function() {
+        if (this._isEmpty()) throw Error('IllegalStateException');;
+
+        let previous = this._first;
+        let current = this._first.next;
+        while(current !== null) {
+            let next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+
+        this._last = this._first;
+        this._last.next = null;
+        this._first = previous;
+    }
+    LinkedList.prototype.getKthFromTheEnd = function(k) {
+        if (this._isEmpty()) throw Error('IllegalStateException');
+        
+        let a = this._first;
+        let b = this._first
+        for (let i = 0; i < k - 1; i++) {
+            b = b.next;
+            if (b === null) {
+                throw Error('IllegalArgumentException');
+            }
+        }
+        while (b !== this._last) {
+            a = a.next;
+            b = b.next;
+        }
+        return a.value;
+    }
+    LinkedList.prototype.printMiddle = function() {
+        if (this._isEmpty()) throw Error('IllegalStateException');
+        let a = this._first;
+        let b = this._first;
+        while (b !== this._last && b.next !== this._last) {
+            b = b.next.next;
+            a = a.next;
+        }
+        return (b === this._last) ? a.value : a.next.value
+    }
+    LinkedList.prototype.hasLoop = function() {
+        let slow = this._first;
+        let fast = this._first;
+        while (fast !== null && fast.next !== null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow === fast) {
+                return true;
+            }
+        }
+        return false;
+    }
     return LinkedList;
 }());
 
 /** START TIME */
-var start = new Date().getTime();
+const startTime = new Date().getTime();
 
 var list = new LinkedList();
-for (let i = 1; i < 1000; i++) {
-    list.addLast(i);
-}
-
-for (let j = 1; j < 100000; j++) {
-    list.reverse();
-}
-
-// for (let j = 1; j < 2; j++) {
-
-// }
-
-
-// console.log(list.print());
+(arr = new Array(30 * 1000)).fill(1).some(item => {
+    list.addLast(item);
+})
+arr.some(() => {
+   list.reverse() 
+});
 
 
 /** END TIME */
-var end = new Date().getTime();
-var time = end - start;
-console.log(`=== Execution time: ${time} ===`);
+console.log(`=== Execution time: ${parseFloat((new Date().getTime() - startTime) / 1000).toFixed(2)} seconds ===`);
