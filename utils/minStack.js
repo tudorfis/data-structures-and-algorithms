@@ -1,11 +1,10 @@
 "use strict";
 exports.__esModule = true;
 const stack = require("../stack");
-
 var MinStack = /** @class */ (function () {
-    function MinStack() {
-        this.stack = new stack.Stack(10);
-        this.minStack = new stack.Stack(10);
+    function MinStack(capacity) {
+        this.stack = new stack.Stack(capacity);
+        this.minStack = new stack.Stack(capacity);
     }
     MinStack.prototype.push = function(item) {
         this.stack.push(item);
@@ -17,6 +16,7 @@ var MinStack = /** @class */ (function () {
     }
     MinStack.prototype.pop = function() {
         if (this.stack.isEmpty()) throw Error('IllegalStateException');
+
         const top = this.stack.pop();
         if (this.minStack.peek() === top)
             this.minStack.pop();
@@ -30,7 +30,7 @@ var MinStack = /** @class */ (function () {
 }());
 exports.MinStack = MinStack;
 
-const minStack = new MinStack();
+const minStack = new MinStack(7);
 
 minStack.push(5);
 minStack.push(2);

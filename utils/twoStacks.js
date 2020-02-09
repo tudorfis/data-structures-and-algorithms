@@ -35,7 +35,6 @@ var TwoStacks = /** @class */ (function () {
         if (this.isEmpty2()) throw Error('IllegalStateException');
         return this.items[this.top2++];
     }
-    
     TwoStacks.prototype.print = function() {
         console.log(`${JSON.stringify(this, null, 4)}`);
     }
