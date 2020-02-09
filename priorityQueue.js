@@ -5,44 +5,70 @@ var PriorityQueue = /** @class */ (function () {
     function PriorityQueue(capacity) {
         if (capacity <= 0) throw Error("capacity must be 1 or greater")
         this.items = new Array(capacity).fill(0);
-        this.rear = 0;
-        this.front = 0;
+        this.front = -1;
         this.count = 0;
     }
     PriorityQueue.prototype.isFull = function() {
-        return (this.count === this.items.length);
+        return ((this.count + this.front + 1) === this.items.length);
     }
     PriorityQueue.prototype.isEmpty = function() {
         return (this.count === 0);
     }
-    PriorityQueue.prototype.enqueue = function(item) {
-        if (this.isFull())
-            throw Error('IllegalStateException');
-        
-        // while (this.count !== 0) {
-        //     if (item < this.items[this.rear])
-        //     this.rear--;
-        // }
-        this.items[this.rear] = item;
-        this.rear = (this.rear + 1) % this.items.length;
-        this.count++
+    PriorityQueue.prototype.extendQueue = function() {
+        const newLength = this.items.length * 2;
+        const newArray = new Array(newLength).fill(0);
+
+        for (let i = 0; i < this.items.length; i++) {
+            newArray[i] = this.items[i];
+        }
+
+        this.items = newArray;
     }
-    PriorityQueue.prototype.dequeue = function() {
+    PriorityQueue.prototype.shiftItemsToInsert = function(item) {
+        let i;
+        for (i = this.count + this.front; i >= 0; i--) {
+            if (this.items[i] > item) {
+                this.items[i + 1] = this.items[i];
+            } else {
+                break;
+            }
+        }
+        return i + 1;
+    }
+    PriorityQueue.prototype.add = function(item) {
+        if (this.isFull()) this.extendQueue();
+
+        const pos = this.shiftItemsToInsert(item);
+        this.items[pos] = item;
+        this.count++;
+    }
+    PriorityQueue.prototype.remove = function() {
         if (this.isEmpty())
             throw Error('IllegalStateException');
         
-        const item = this.items[this.front];
-        this.items[this.front] = 0;
-        this.front = (this.front + 1) % this.items.length;
         this.count--;
-        
-        return item;
-    }
+        return this.items[++this.front];
+    }    
     PriorityQueue.prototype.peek = function() {
         if (this.isEmpty())
             throw Error('IllegalStateException');
         
         return this.items[this.front];
+    }
+    PriorityQueue.prototype.reverse = function(nr) {
+        if (nr <= 1) throw Error('IllegalArgumentException');
+
+        const revStack = new stack.Stack(nr);
+        const start = this.front + 1;
+        const end = nr + start;
+        for (let i = start; i < end; i++) {
+            revStack.push(this.items[i]);
+        }
+
+        let i = this.front;
+        while(!revStack.isEmpty()) {
+            this.items[++i] = revStack.pop();
+        }
     }
     return PriorityQueue;
 }());
@@ -50,12 +76,57 @@ exports.PriorityQueue = PriorityQueue;
 
 const queue = new PriorityQueue(5);
 
-queue.enqueue(10);
-queue.enqueue(20);
-queue.enqueue(30);
-queue.enqueue(40);
-queue.enqueue(50);
-queue.dequeue();
-queue.dequeue();
-queue.enqueue(60);
+queue.add(10);
+queue.add(40);
+queue.add(20);
+queue.add(50);
+queue.add(30);
+// queue.remove();
+
 console.log(`${JSON.stringify(queue)}`);
+
+queue.reverse(3);
+
+console.log(`${JSON.stringify(queue)}`);
+
+// queue.add(9);
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// console.log(queue.remove());
+// console.log(queue.remove());
+// console.log(queue.remove());
+// console.log(queue.remove());
+
+// queue.add(60);
+// queue.add(70);
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// console.log(queue.remove());
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// queue.add(80);
+// queue.add(90);
+// queue.add(100);
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// queue.reverse(3);
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// console.log(queue.remove());
+// console.log(queue.remove());
+
+// console.log(`${JSON.stringify(queue)}`);
+
+// console.log(queue.remove());
+// console.log(queue.remove());
+// console.log(queue.remove());
+// console.log(queue.remove());
+// console.log(queue.remove());
+// console.log(queue.remove());
