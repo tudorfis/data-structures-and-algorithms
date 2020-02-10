@@ -1,5 +1,7 @@
-LinkedList = /** @class */ (function () {
-    Node = /** @class */ (function () {
+"use strict";
+exports.__esModule = true;
+const LinkedList = /** @class */ (function () {
+    const Node = /** @class */ (function () {
         function Node(value) {
             this.value = value;
             this.next = null;
@@ -12,7 +14,7 @@ LinkedList = /** @class */ (function () {
         this._last = null;
         this._size = 0;
     }
-    LinkedList.prototype._isEmpty = function () {
+    LinkedList.prototype.isEmpty = function () {
         return (this._first === null);
     };
     LinkedList.prototype.getPrevious = function (node) {
@@ -24,7 +26,7 @@ LinkedList = /** @class */ (function () {
         return null;
     };
     LinkedList.prototype.handleEmptyOrOne = function () {
-        if (this._isEmpty())
+        if (this.isEmpty())
             return false;
         if (this._first === this._last) {
             this._first = this._last = null;
@@ -35,7 +37,7 @@ LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.addLast = function (item) {
         const node = new Node(item);
-        if (this._isEmpty()) {
+        if (this.isEmpty()) {
             this._first = this._last = node;
         }
         else {
@@ -46,7 +48,7 @@ LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.addFirst = function (item) {
         const node = new Node(item);
-        if (this._isEmpty()) {
+        if (this.isEmpty()) {
             this._first = this._last = node;
         }
         else {
@@ -130,7 +132,7 @@ LinkedList = /** @class */ (function () {
     }
     */
     LinkedList.prototype.reverse = function() {
-        if (this._isEmpty()) throw Error('IllegalStateException');;
+        if (this.isEmpty()) throw Error('IllegalStateException');;
 
         let previous = this._first;
         let current = this._first.next;
@@ -146,7 +148,7 @@ LinkedList = /** @class */ (function () {
         this._first = previous;
     }
     LinkedList.prototype.getKthFromTheEnd = function(k) {
-        if (this._isEmpty()) throw Error('IllegalStateException');
+        if (this.isEmpty()) throw Error('IllegalStateException');
         
         let a = this._first;
         let b = this._first
@@ -163,7 +165,7 @@ LinkedList = /** @class */ (function () {
         return a.value;
     }
     LinkedList.prototype.printMiddle = function() {
-        if (this._isEmpty()) throw Error('IllegalStateException');
+        if (this.isEmpty()) throw Error('IllegalStateException');
         let a = this._first;
         let b = this._first;
         while (b !== this._last && b.next !== this._last) {
@@ -186,18 +188,19 @@ LinkedList = /** @class */ (function () {
     }
     return LinkedList;
 }());
+exports.LinkedList = LinkedList;
 
 /** START TIME */
-const startTime = new Date().getTime();
+// const startTime = new Date().getTime();
 
-var list = new LinkedList();
-(arr = new Array(30 * 1000)).fill(1).some(item => {
-    list.addLast(item);
-})
-arr.some(() => {
-   list.reverse() 
-});
+// var list = new LinkedList();
+// (arr = new Array(30 * 1000)).fill(1).some(item => {
+//     list.addLast(item);
+// })
+// arr.some(() => {
+//    list.reverse() 
+// });
 
 
 /** END TIME */
-console.log(`=== Execution time: ${parseFloat((new Date().getTime() - startTime) / 1000).toFixed(2)} seconds ===`);
+// console.log(`=== Execution time: ${parseFloat((new Date().getTime() - startTime) / 1000).toFixed(2)} seconds ===`);
