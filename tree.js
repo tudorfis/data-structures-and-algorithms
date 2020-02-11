@@ -13,7 +13,6 @@ class Tree {
     isEmpty() {
         return (this.root === null)
     }
-    
     insert(value) {
         const node = new Tree.Node(value)
 
