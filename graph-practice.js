@@ -9,9 +9,8 @@ graph.addNode('C')
 graph.addNode('D')
 
 graph.addEdge('A', 'B')
-graph.addEdge('B', 'D')
-graph.addEdge('D', 'C')
-graph.addEdge('A', 'C')
+graph.addEdge('B', 'C')
+graph.addEdge('C', 'A')
+graph.addEdge('D', 'A')
 
-graph.traverseInDepthLoop('A')
-graph.traverseBreadthFirstLoop('A')
+console.log(graph.hasCycle());

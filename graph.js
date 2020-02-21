@@ -137,7 +137,7 @@ class Graph {
             if (visitedNodes.has(source)) continue
                 
             visitedNodes.add(source)
-            
+
             for (const adjacent of adjacencyList[source]) 
                 if (!visitedNodes.has(adjacent))
                     queue.add(adjacent)
@@ -145,6 +145,60 @@ class Graph {
 
         console.log(visitedNodes)
     }
+    topologicalSort(source) {
+        const adjacencyList = _adjacencyList.get(this)
+        const sortedNodes = []
+
+        const _topologicalSorting = (source) => {
+            if (adjacencyList[source].length)
+                for (const adjacent of adjacencyList[source]) 
+                    _topologicalSorting(adjacent)
+
+            if (!sortedNodes.includes(source))
+                sortedNodes.push(source)
+        }
+        _topologicalSorting(source)
+
+        console.log(sortedNodes.reverse())
+    }
+    hasCycle() {
+        const nodes = _nodes.get(this)
+        const adjacencyList = _adjacencyList.get(this)
+        let hasCycle = false
+
+        const all = new Set()
+        const visiting = new Set()
+        const visited = new Set()
+        
+        for (const source in nodes)
+            all.add(source)
+
+        const _cycleDetection = (source) => {
+            if (hasCycle) return 
+
+            if (visiting.has(source))
+                hasCycle = true
+
+            if (all.has(source)) {
+                all.delete(source)
+                visiting.add(source)
+            }
+
+            for (const adjacent of adjacencyList[source]) 
+                _cycleDetection(adjacent)
+
+            if (visiting.has(source)) {
+                visiting.delete(source)
+                visited.add(source)
+            }
+        }
+
+        for (const source of all) 
+            if (!hasCycle) _cycleDetection(source)
+
+        return hasCycle
+    }
+    
     print() {
         const adjacencyList = _adjacencyList.get(this)
         for (const source in adjacencyList)
