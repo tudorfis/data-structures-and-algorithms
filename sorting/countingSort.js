@@ -1,18 +1,19 @@
 
 class CountingSort {
     static sort(arr = []) {
-        const countMap = new Map()
+        const counts = []
         for (const el of arr) {
-            if (!countMap.has(el)) {
-                countMap.set(el, 1)
-                continue
-            }
-
-            countMap.set(countMap.get(el) + 1)
+            if (!counts[el]) counts[el] = 0
+            counts[el]++
         }
 
-        console.log(arr)
-        console.log(countMap)
+        let k = 0
+        for (const count in counts)
+            if (count)
+                for (let i = 0; i < counts[count]; i++)
+                    arr[k++] = count
+
+        return arr
     }
 }
 

@@ -15,36 +15,30 @@
 
 // console.log(InsertionSort.sort([7, 4, 5, 2, 1, 8, 3]))
 
-/**
- * Get Random Array With Unique Numbers
- */
-let i = 0, n = 10**1
-const arr = []
-while (true) {
-    if (i++ === n) break
-    arr.push(Math.ceil(Math.random(i, n) * n))
 
-    // let rnd = null
-    // do rnd = Math.ceil(Math.random(i, n) * n)
-    // while (arr.includes(rnd))
-    // arr.push(rnd)
-}
+/** Get Random Array With Unique Numbers */
+let i = 0, n = 10**4, arr = []
+while (i !== n) arr.push(Math.ceil(Math.random(i++, n) * n))
 
-const MergeSort = require('./mergeSort')
 const BubbleSort = require('./bubbleSort')
 const SelectionSort = require('./selectionSort')
 const InsertionSort = require('./insertionSort')
-const QuickSort = require('./quickSort')
-const CountingSort = require('./countingsort')
 
-const start = new Date().getTime()
-console.log(`========== START SORTING ===============`)
+const MergeSort = require('./mergeSort')
+const QuickSort = require('./quickSort')
+
+const CountingSort = require('./countingSort')
+const BucketSort = require('./bucketSort')
+
+
+console.log(`========== ${(start = new Date()) && 'START SORTING'} ===============`)
 
 // BubbleSort.sort(arr)
 // SelectionSort.sort(arr)
 // InsertionSort.sort(arr)
 // MergeSort.sort(arr)
-// console.log(QuickSort.sort(arr))
-console.log(CountingSort.sort(arr))
+// QuickSort.sort(arr)
+// CountingSort.sort(arr)
+BucketSort.sort(arr, 3)
 
-console.log(`${(new Date().getTime() - start) / 1000} seconds`)
+console.log(`${(new Date() - start) / 1000} seconds`)
