@@ -6,7 +6,7 @@ while (i !== n) arr.push(Math.ceil(Math.random(i++, n) * n))
 arr = arr.sort((a, b) => a - b);
 target = arr[100000]
 
-console.log(`========== ${(start1 = new Date()) && 'START BILUTZU SEARCHING'} ===============`)
+console.log(`========== ${(start = new Date()) && 'START SEARCHING'} ===============`)
   
 console.log(Search.linearSearch(arr, target))
 console.log(Search.binarySearchRec(arr, target))
@@ -16,7 +16,7 @@ console.log(Search.bilutzuSearch(arr, target, 9))
 console.log(Search.jumpSearch(arr, target))
 console.log(Search.exponentialSearch(arr, target))
 
-console.log(`${(new Date() - start1) / 1000} seconds`)
+console.log(`${(new Date() - start) / 1000} seconds`)
 
 // let start1, start2
 
