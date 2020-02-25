@@ -33,28 +33,47 @@ class StringManipulation {
     static isRotation(str1 = '', str2 = '') {
         if (str1.length !== str2.length) return false
 
-        const rotation = {}
-        let prevRot = ''
+        const _getRotationMap = (string = '') => {
+            if (!string.length) return {}
 
-        for (const ch of str1) {
-            if (!prevRot) {
-                rotation[ch] = ''
-                prevRot = ch
-                continue
+            const map = {}
+            let previousLetter = null
+
+            string += string.charAt(0)
+
+            for (const letter of string) {
+                if (!previousLetter) {
+                    previousLetter = letter
+                    continue
+                }
+
+                map[previousLetter] = letter
+                previousLetter = letter
+            }
+            
+            return map
+        }
+        const _checkRotation = (map = {}, string = '') => {
+            if (!string.length) return false
+            
+            string += string.charAt(0)
+            
+            for (let index = 0; index < string.length - 1; index++) {
+                
+                const letter = string.charAt(index)
+                const nextLetter = string.charAt(index + 1)
+
+                if (map[letter] !== nextLetter)
+                    return false
             }
 
-            rotation[prevRot] = ch
-            prevRot = ch
+            return true
         }
-        rotation[str1.charAt(str1.length - 1)] = str1.charAt(0)
 
-        for (let i = 0; i < str2.length; i++)
-            if (rotation[str2.charAt(i)] !== str2.charAt(i + 1 === str2.length ? 0 : i + 1))
-                return false
-
-        return true
+        return _checkRotation(_getRotationMap(str1), str2)
+        
     }
-    static areRotations(str1 = '', str2 = '') {
+    static areRotations(str1 = '', string = '') {
         return (str1.length === str2.length && str1 + str1).includes(str2)
     }
     static removeDuplicates(str = '') {
@@ -69,7 +88,7 @@ class StringManipulation {
 
         return output
     }
-    static mostRepeated(str = '') {
+    static printOccuringChar(str = '') {
         if (!str.length) return ''
 
         const map = {}
